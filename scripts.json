@@ -1,87 +1,33 @@
 // ======================
-// BASE DE DONNÉES SCRIPTS ROBLOX
+// BASE DE DONNÉES SCRIPTS (simple objet JS)
 // ======================
 
 const scriptsDB = {
-    "blox fruits": { 
-        name: "Blox Fruits", 
-        type: "Keyless", 
-        script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()" 
-    },
-    "pet simulator 99": { 
-        name: "Pet Simulator 99", 
-        type: "Keyless", 
-        script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()" 
-    },
-    "brookhaven": { 
-        name: "Brookhaven RP", 
-        type: "Keyless", 
-        script: "-- Script Brookhaven" 
-    },
-    "adopt me": { 
-        name: "Adopt Me", 
-        type: "Keyless", 
-        script: "-- Script Adopt Me" 
-    },
-    "the strongest battlegrounds": { 
-        name: "The Strongest Battlegrounds", 
-        type: "Keyless", 
-        script: "-- TSB Script" 
-    },
-    "dress to impress": { 
-        name: "Dress to Impress", 
-        type: "Keyless", 
-        script: "-- DTI Script" 
-    },
-    "jujutsu shenanigans": { 
-        name: "Jujutsu Shenanigans", 
-        type: "Keyless", 
-        script: "-- JJS Script" 
-    },
-    "rivals": { 
-        name: "RIVALS", 
-        type: "Key", 
-        script: "-- Rivals Script" 
-    },
-    "murder mystery 2": { 
-        name: "Murder Mystery 2", 
-        type: "Keyless", 
-        script: "-- MM2 Script" 
-    },
-    "doors": { 
-        name: "Doors", 
-        type: "Keyless", 
-        script: "-- Doors Script" 
-    }
-    // Tu peux ajouter d'autres jeux ici
+    "blox fruits": { name: "Blox Fruits", type: "Keyless", script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()" },
+    "pet simulator 99": { name: "Pet Simulator 99", type: "Keyless", script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()" },
+    "brookhaven": { name: "Brookhaven RP", type: "Keyless", script: "-- Brookhaven Script" },
+    "adopt me": { name: "Adopt Me", type: "Keyless", script: "-- Adopt Me Script" },
+    "dress to impress": { name: "Dress to Impress", type: "Keyless", script: "-- DTI Script" },
+    "the strongest battlegrounds": { name: "The Strongest Battlegrounds", type: "Keyless", script: "-- TSB Script" },
+    "doors": { name: "Doors", type: "Keyless", script: "-- Doors Script" },
+    "rivals": { name: "RIVALS", type: "Key", script: "-- Rivals Script" },
+    "jujutsu shenanigans": { name: "Jujutsu Shenanigans", type: "Keyless", script: "-- JJS Script" },
+    "murder mystery 2": { name: "Murder Mystery 2", type: "Keyless", script: "-- MM2 Script" }
 };
 
-// Fonction de recherche intelligente (tolère fautes et majuscules)
-function findScript(searchTerm) {
-    if (!searchTerm) return null;
-    searchTerm = searchTerm.toLowerCase().trim();
+// Recherche intelligente
+function findScript(search) {
+    if (!search) return null;
+    search = search.toLowerCase().trim();
 
-    // Recherche exacte
-    if (scriptsDB[searchTerm]) return scriptsDB[searchTerm];
-
-    let bestMatch = null;
-    let bestScore = 0;
+    if (scriptsDB[search]) return scriptsDB[search];
 
     for (let key in scriptsDB) {
-        const gameName = key;
-        const displayName = scriptsDB[key].name.toLowerCase();
-        let score = 0;
-
-        if (gameName.includes(searchTerm) || displayName.includes(searchTerm)) score += 60;
-        if (searchTerm.includes(gameName.split(' ')[0])) score += 30;
-
-        if (score > bestScore) {
-            bestScore = score;
-            bestMatch = scriptsDB[key];
+        if (key.includes(search) || scriptsDB[key].name.toLowerCase().includes(search)) {
+            return scriptsDB[key];
         }
     }
-
-    return bestScore >= 25 ? bestMatch : null;
+    return null;
 }
 
 // ======================
@@ -102,15 +48,13 @@ client.on('interactionCreate', async interaction => {
                     { name: "🔑 Type", value: result.type, inline: true },
                     { name: "📜 Script", value: `\`\`\`lua\n${result.script}\n\`\`\`` }
                 ],
-                footer: { text: "⚠️ Utilise à tes risques et périls" },
-                timestamp: new Date()
+                footer: { text: "⚠️ Utilise à tes risques et périls" }
             };
-
             await interaction.reply({ embeds: [embed] });
         } else {
-            await interaction.reply({
-                content: `❌ Aucun script trouvé pour **${searchTerm}**.\n\nEssaie : blox, pet, brook, dress, doors...`,
-                ephemeral: true
+            await interaction.reply({ 
+                content: `❌ Aucun script trouvé pour **${searchTerm}**.\nEssaie : blox, pet, brook, dress, doors...`, 
+                ephemeral: true 
             });
         }
     }
