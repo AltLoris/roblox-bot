@@ -1,15 +1,15 @@
-{
-  "bloxfruits": [
-    "Auto farm level (exemple)",
-    "Teleport island (exemple)",
-    "Auto boss farm (exemple)"
-  ],
-  "adoptme": [
-    "Auto money farm (exemple)",
-    "Auto pet (exemple)"
-  ],
-  "petsimulator": [
-    "Auto hatch eggs (exemple)",
-    "Auto farm coins (exemple)"
-  ]
-}
+const scriptsDB = {
+    "blox fruits": { 
+        name: "Blox Fruits", 
+        type: "Keyless", 
+        script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()", 
+        link: "https://pastebin.com/XXXX" 
+    },
+    "pet simulator 99": { 
+        name: "Pet Simulator 99", 
+        type: "Keyless", 
+        script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()", 
+        link: "" 
+    },
+    // ... etc
+};
