@@ -209,12 +209,12 @@ client.on("interactionCreate", async (interaction) => {
           { name: "🔑 Type", value: result.type, inline: true },
           { name: "📜 Script", value: `\`\`\`lua\n${result.script}\n\`\`\`` }
         ],
-        footer: { text: "⚠️ Utilise à tes risques et périls" }
+        footer: { text: "⚠️ Use at your Own Risks" }
       };
       return interaction.reply({ embeds: [embed] });
     } else {
       return interaction.reply({ 
-        content: `❌ Aucun script trouvé pour **${searchTerm}**.`, 
+        content: `❌ No script found for **${searchTerm}**.`, 
         ephemeral: true 
       });
     }
