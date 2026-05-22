@@ -1,15 +1,84 @@
+// ======================
+// BASE DE DONNÉES (à garder en bas ou en haut)
+// ======================
 const scriptsDB = {
-    "blox fruits": { 
-        name: "Blox Fruits", 
-        type: "Keyless", 
-        script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()", 
-        link: "https://pastebin.com/XXXX" 
-    },
-    "pet simulator 99": { 
-        name: "Pet Simulator 99", 
-        type: "Keyless", 
-        script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()", 
-        link: "" 
-    },
-    // ... etc
+    "blox fruits": { name: "Blox Fruits", type: "Keyless", script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()", link: "" },
+    "pet simulator 99": { name: "Pet Simulator 99", type: "Keyless", script: "loadstring(game:HttpGet('TON_LIEN_ICI'))()", link: "" },
+    "brookhaven": { name: "Brookhaven RP", type: "Keyless", script: "-- Script Brookhaven", link: "" },
+    "adopt me": { name: "Adopt Me", type: "Keyless", script: "-- Script Adopt Me", link: "" },
+    "the strongest battlegrounds": { name: "The Strongest Battlegrounds", type: "Keyless", script: "-- TSB Script", link: "" },
+    "dress to impress": { name: "Dress to Impress", type: "Keyless", script: "-- DTI Script", link: "" },
+    "jujutsu shenanigans": { name: "Jujutsu Shenanigans", type: "Keyless", script: "-- JJS Script", link: "" },
+    "rivals": { name: "RIVALS", type: "Key", script: "-- Rivals Script", link: "" },
+    // ... Ajoute tes autres jeux ici
 };
+
+// Fonction de recherche intelligente
+function findScript(searchTerm) {
+    searchTerm = searchTerm.toLowerCase().trim();
+
+    // Recherche exacte
+    if (scriptsDB[searchTerm]) return scriptsDB[searchTerm];
+
+    let bestMatch = null;
+    let bestScore = 0;
+
+    for (let key in scriptsDB) {
+        const gameName = key.toLowerCase();
+        const displayName = scriptsDB[key].name.toLowerCase();
+
+        let score = 0;
+
+        // Recherche partielle
+        if (gameName.includes(searchTerm) || displayName.includes(searchTerm)) score += 50;
+        if (searchTerm.includes(gameName) || searchTerm.includes(displayName)) score += 40;
+
+        // Bonus si plusieurs mots correspondent
+        const searchWords = searchTerm.split(' ');
+        const gameWords = gameName.split(' ');
+
+        searchWords.forEach(word => {
+            if (gameWords.some(gw => gw.includes(word) && word.length > 2)) score += 15;
+        });
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestMatch = scriptsDB[key];
+        }
+    }
+
+    return bestScore > 20 ? bestMatch : null;
+}
+
+// ======================
+// COMMANDE /SCRIPT
+// ======================
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    if (interaction.commandName === 'script') {
+        const searchTerm = interaction.options.getString('jeu');
+
+        const result = findScript(searchTerm);
+
+        if (result) {
+            const embed = {
+                color: 0x00ff00,
+                title: `🎮 ${result.name}`,
+                fields: [
+                    { name: "🔑 Type", value: result.type, inline: true },
+                    { name: "📜 Script", value: `\`\`\`lua\n${result.script}\n\`\`\`` }
+                ],
+                footer: { text: "⚠️ Utilise à tes risques et périls" },
+                timestamp: new Date()
+            };
+
+            await interaction.reply({ embeds: [embed] });
+        } else {
+            await interaction.reply({
+                content: `❌ Aucun script trouvé pour **${searchTerm}**.\n\nEssaie avec un autre mot-clé (ex: blox, pet, brook, dress...)`,
+                ephemeral: true
+            });
+        }
+    }
+});
