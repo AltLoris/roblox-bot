@@ -34,8 +34,8 @@ const rest = new REST({ version: "10" }).setToken(TOKEN);
   );
 })();
 
-client.on("ready", () => {
-  console.log("Bot connecté :", client.user.tag);
+client.on('clientReady', () => {
+    console.log(`Bot connecté : ${client.user.tag}`);
 });
 
 client.on("interactionCreate", async (interaction) => {
