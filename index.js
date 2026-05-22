@@ -70,45 +70,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ThaScripter9829/Phant
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AmeloxRUS/wqeewqewq/refs/heads/main/ewewe"))()` },
-    "survive zombie arena": { name: "Survive Zombie Arena", type: "Keyless", script: `--[[
-	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
-]]
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local PlayerScripts = LocalPlayer:WaitForChild("PlayerScripts")
-local Controllers = PlayerScripts:WaitForChild("Controllers")
-local GunClientModule = require(Controllers:WaitForChild("GunClient"))
-local ZombiesFolder = workspace:WaitForChild("Zombies_Local", 15)
-local function isValidZombie(model) {
-    if not model or not model:IsA("Model") then return false end
-    local animController = model:FindFirstChild("AnimationController")
-    if animController and animController:IsA("AnimationController") then return true end
-    return false
-}
-local function getHumanoidRootPart(model) {
-    if not model:IsA("Model") then return nil end
-    return model:FindFirstChild("HumanoidRootPart") or model.PrimaryPart
-}
-local function getClosestZombieRootPart(origin) {
-    local closestDistSq = math.huge
-    local closestPart = nil
-    for _, child in ipairs(ZombiesFolder:GetChildren()) do {
-        if isValidZombie(child) then {
-            local rootPart = getHumanoidRootPart(child)
-            if rootPart and rootPart:IsA("BasePart") then {
-                local delta = rootPart.Position - origin
-                local distSq = delta.X*delta.X + delta.Y*delta.Y + delta.Z*delta.Z
-                if distSq < closestDistSq then {
-                    closestDistSq = distSq
-                    closestPart = rootPart
-                }
-            }
-        }
-    }
-    return closestPart
-}
--- Le reste du script long est gardé tel quel mais entouré de backticks
-` },
     "anime defenders": { name: "Anime Defenders", type: "Key", script: `--[[
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
@@ -155,10 +116,6 @@ Gun.DrawRotatedRectangle = function(self, _, _, _, _, _, part, surface, pixelSiz
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/002c19202c9946e6047b0c6e0ad51f84.lua"))()` },
-    "the mimic": { name: "The Mimic", type: "Keyless", script: `--[[
-	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
-]]
-print("The Mimic script loaded (long version)")` },  // Raccourci temporaire car trop long, tu peux remettre le vrai si tu veux
     "evade": { name: "Evade", type: "Keyless", script: `--[[
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
